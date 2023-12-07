@@ -4,9 +4,10 @@ export default function QuestionTimer({ timeout, onTimeout }) {
   const [timeLeft, setTimeLeft] = useState(timeout);
 
   useEffect(() => {
+    const intervalSpeed = 10
     const interval = setInterval(() => {
-      setTimeLeft((prevTimeLeft) => prevTimeLeft - 1000);
-    }, 1000);
+      setTimeLeft((prevTimeLeft) => prevTimeLeft - intervalSpeed);
+    }, intervalSpeed);
     return () => {
       clearInterval(interval);
     };
@@ -21,7 +22,7 @@ export default function QuestionTimer({ timeout, onTimeout }) {
 
   return (
     <>
-      <progress id="question-time" value={timeLeft} max={timeout} />
+      <progress id="question-timer" value={timeLeft} max={timeout} />
     </>
   );
 }
