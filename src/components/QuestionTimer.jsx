@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
-export default function QuestionTimer({ timeout, onTimeout }) {
+export default function QuestionTimer({ timeout, onTimeout, quizIsActive }) {
   const [timeLeft, setTimeLeft] = useState(timeout);
 
   useEffect(() => {
-    const intervalSpeed = 10
+    const intervalSpeed = 10;
     const interval = setInterval(() => {
       setTimeLeft((prevTimeLeft) => prevTimeLeft - intervalSpeed);
     }, intervalSpeed);
@@ -22,7 +22,12 @@ export default function QuestionTimer({ timeout, onTimeout }) {
 
   return (
     <>
-      <progress id="question-timer" value={timeLeft} max={timeout} />
+      <progress
+        className={quizIsActive === null ? "answered" : ""}
+        id="question-timer"
+        value={timeLeft}
+        max={timeout}
+      />
     </>
   );
 }

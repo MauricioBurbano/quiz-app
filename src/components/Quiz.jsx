@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import questions from "../questions.js";
 import Trofe from "../assets/quiz-complete.png";
 import QuestionTimer from "./QuestionTimer.jsx";
+import Question from "./Question.jsx";
 
 // Shuffle answers recursively
 const shuffledQuestions = JSON.parse(JSON.stringify(questions));
@@ -70,67 +71,50 @@ export default function Quiz() {
             key={currentQuestion}
             timeout={3000}
             onTimeout={handleTimeout}
+            quizIsActive={quizIsActive}
           />
-          <h2>{questions[currentQuestion].text}</h2>
-          <ul id="answers">
-            {shuffledQuestions[currentQuestion].answers.map((answer) => (
-              <li className="answer" key={answer}>
-                <button
-                  onClick={() => {
-                    handleSelectAnswer(answer);
-                  }}
-                >
-                  {answer}
-                </button>
-              </li>
-            ))}
-          </ul>
+          <Question
+            question={questions[currentQuestion].text}
+            questionAnswers={shuffledQuestions[currentQuestion].answers}
+            buttonIsDisabled={false}
+            handleClick={handleSelectAnswer}
+            quizIsActive={quizIsActive}
+            answers={answers}
+          />
         </div>
       )}
       {quizIsActive === null && (
         <div id="question">
-          <QuestionTimer timeout={1000} onTimeout={updateQuizIsActive} />
-          <h2>{questions[currentQuestion - 1].text}</h2>
-          <ul id="answers">
-            {shuffledQuestions[currentQuestion - 1].answers.map((answer) => (
-              <li className="answer" key={answer}>
-                <button
-                  className={
-                    answer === answers[answers.length - 1] ? "selected" : ""
-                  }
-                  onClick={() => {}}
-                >
-                  {answer}
-                </button>
-              </li>
-            ))}
-          </ul>
+          <QuestionTimer
+            timeout={2000}
+            onTimeout={updateQuizIsActive}
+            quizIsActive={quizIsActive}
+          />
+          <Question
+            question={questions[currentQuestion - 1].text}
+            questionAnswers={shuffledQuestions[currentQuestion - 1].answers}
+            buttonIsDisabled={true}
+            handleClick={() => {}}
+            quizIsActive={quizIsActive}
+            answers={answers}
+          />
         </div>
       )}
       {quizIsActive === false && (
         <div id="question">
-          <QuestionTimer timeout={1000} onTimeout={updateQuizIsActive} />
-          <h2>{questions[currentQuestion - 1].text}</h2>
-          <ul id="answers">
-            {shuffledQuestions[currentQuestion - 1].answers.map((answer) => (
-              <li className="answer" key={answer}>
-                <button
-                  className={
-                    answer === answers[answers.length - 1] &&
-                    answer === questions[answers.length - 1].answers[0]
-                      ? "correct"
-                      : answer === answers[answers.length - 1] &&
-                        answer !== questions[answers.length - 1].answers[0]
-                      ? "wrong"
-                      : ""
-                  }
-                  onClick={() => {}}
-                >
-                  {answer}
-                </button>
-              </li>
-            ))}
-          </ul>
+          <QuestionTimer
+            timeout={1000}
+            onTimeout={updateQuizIsActive}
+            quizIsActive={quizIsActive}
+          />
+          <Question
+            question={questions[currentQuestion - 1].text}
+            questionAnswers={shuffledQuestions[currentQuestion - 1].answers}
+            buttonIsDisabled={true}
+            handleClick={() => {}}
+            quizIsActive={quizIsActive}
+            answers={answers}
+          />
         </div>
       )}
     </div>
