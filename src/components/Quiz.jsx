@@ -59,6 +59,25 @@ export default function Quiz() {
       <div id="summary">
         <img src={Trofe} alt="Trofe" />
         <h2>Quiz Completed!</h2>
+        <ol>
+          {questions.map((question, index) => (
+            <li key={question.text}>
+              <h3>{index + 1}</h3>
+              <p className="question">{question.text}</p>
+              <p
+                className={
+                  answers[index]
+                    ? answers[index] === question.answers[0]
+                      ? "user-answer correct"
+                      : "user-answer wrong"
+                    : "user-answer skipped"
+                }
+              >
+                {answers[index] ?? "You did not answer this question"}
+              </p>
+            </li>
+          ))}
+        </ol>
       </div>
     );
   }
@@ -86,7 +105,7 @@ export default function Quiz() {
       {quizIsActive === null && (
         <div id="question">
           <QuestionTimer
-            timeout={2000}
+            timeout={1000}
             onTimeout={updateQuizIsActive}
             quizIsActive={quizIsActive}
           />
@@ -103,7 +122,7 @@ export default function Quiz() {
       {quizIsActive === false && (
         <div id="question">
           <QuestionTimer
-            timeout={1000}
+            timeout={2000}
             onTimeout={updateQuizIsActive}
             quizIsActive={quizIsActive}
           />
